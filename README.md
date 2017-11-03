@@ -1,5 +1,5 @@
 # Sudoku solver
-Solves sudokus. 
+Solves <a href="https://en.wikipedia.org/wiki/Sudoku">sudokus</a>. 
 
 Works by performing a depth-first search, filling in the blank values and terminating the branch when an inconsistency is found (duplicated numbers appearing in a row, column or 3x3 box).
 
