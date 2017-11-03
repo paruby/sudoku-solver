@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+table, th, td {
+    border: 1px solid black;
+    border-collapse: collapse;
+}
+tr, td {
+    padding: 0px;
+    text-align: center;    
+}
+div {
+    padding: 5px;
+    width:20px;
+    text-align:center;
+}
+td {
+    width:20px;
+}
+tr {
+    height:20px;
+}
+#wrapper {
+    width: 70%;
+    margin: 0 auto;
+}
+</style>
+<script>
+function getBoard() {
+    var board = Array();
+    for (var i=0; i<9; i++){
+        board.push(Array())
+        for (j=0; j<9; j++){
+            var v = document.getElementById(i.toString()+j.toString()).innerHTML;
+            if (v == ""){
+                board[i].push(".");
+            } else {
+                board[i].push(v);
+            }
+        }
+    }
+    return board
+}
+
+function checkUnique(vals) {
+    var boolArray = [];
+    for (var i=0; i<10; i++) {
+        boolArray.push(false)
+    }
+    for (var i=0; i<10; i++) {
+        var v = vals[i];
+        if (v != "."){
+            if (boolArray[parseInt(v)] == true) {
+                return false
+            } else {
+                boolArray[parseInt(v)] = true;
+            }
+        }
+    }
+    return true
+}
+
+function rowValid(board, row, col) {
+    var vals = board[row]
+    return checkUnique(vals)
+}
+
+function colValid(board, row, col) {
+    var vals = []
+    for (var i=0; i<9; i++) {
+        vals.push(board[i][col])
+    }
+    return checkUnique(vals)
+}
+
+function blockValid(board, row, col) {
+    var vals = []
+    var upper_row = 3 * Math.floor(row / 3)
+    var left_col =  3 * Math.floor(col / 3)
+    for (var i=0; i<3; i++) {
+        for (var j=0; j<3; j++){
+            vals.push(board[upper_row+i][left_col+j])
+        }
+    }
+    return checkUnique(vals)
+}
+
+function isValid(board, row, col) {
+    if (rowValid(board, row, col) & colValid(board, row, col) & blockValid(board, row, col)) {
+        return true
+    } else {
+        return false
+    }
+}
+
+function pos2rowCol(pos) {
+    return [Math.floor(pos/9), pos%9]
+}
+
+function solve_sudoku(board, pos) {
+    if (pos == 81){
+        return true
+    }
+    var row
+    var col
+    [row, col] = pos2rowCol(pos)
+    if (board[row][col] != ".") {
+        return solve_sudoku(board, pos+1)
+    } else {
+        for (var i=1; i<10; i++){
+            board[row][col] = i.toString()
+            document.getElementById(row.toString() + col.toString()).innerHTML = i.toString()
+            document.getElementById(row.toString() + col.toString()).style.color = "red"
+            if (isValid(board, row, col)) {
+                if (solve_sudoku(board, pos+1)) {
+                    return true
+                }
+            }
+        }
+        board[row][col] = '.'
+        document.getElementById(row.toString() + col.toString()).innerHTML = ""
+        return false
+    }
+}
+
+function runAll() {
+    board = getBoard()
+    var pos = 0
+    for (var i=0; i<9; i++){
+        for (var j=0; j<9; j++){
+            if (isValid(board, i, j) == false){
+                finished(false)
+            }
+        }
+    }
+    if (solve_sudoku(board,0)){
+        finished(true)
+    }
+}
+
+function finished(bool) {
+    if (bool == false) {
+        document.getElementById("message").innerHTML = "There is no solution."
+    } else {
+        document.getElementById("message").innerHTML = "Solved!" 
+    }
+}
+
+function clearAll() {
+    document.getElementById("message").innerHTML = "Fill some of the boxes, then do something magical!"
+    for (var i=0; i<9; i++){
+        for (var j=0; j<9; j++) {
+        document.getElementById(i.toString() + j.toString()).innerHTML = ""
+        document.getElementById(i.toString() + j.toString()).style.color = "black"
+        }
+    
+    }
+}
+
+function clearPartial() {
+    // only deletes the cells the computer filled in
+    for (var i=0; i<9; i++){
+        for (var j=0; j<9; j++) {
+            if (document.getElementById(i.toString() + j.toString()).style.color == "red"){
+                document.getElementById(i.toString() + j.toString()).innerHTML = ""
+                document.getElementById(i.toString() + j.toString()).style.color = "black"
+            }        
+        }
+    
+    }
+    document.getElementById("message").innerHTML = "Fill some of the boxes, then do something magical!"
+}
+
+</script>
+
+</head>
+<body>
+
+
+<table style="width:250px; height:250px">
+  <tr style="border-top:3px solid black;">
+    <td style="border-left:3px solid black"><div contenteditable id="00"></div></td>
+    <td><div contenteditable id="01"></div></td>
+    <td style="border-right:3px solid black"><div contenteditable id="02"></div></td>
+    <td><div contenteditable id="03"></div></td>
+    <td><div contenteditable id="04"></div></td>
+    <td style="border-right:3px solid black"><div contenteditable id="05"></div></td>
+    <td><div contenteditable id="06"></div></td>
+    <td><div contenteditable id="07"></div></td>
+    <td style="border-right:3px solid black"><div contenteditable id="08"></div></td>
+  </tr>
+  <tr>
+    <td style="border-left:3px solid black"><div contenteditable id="10"></div></td>
+    <td><div contenteditable id="11"></div></td>
+    <td style="border-right:3px solid black"><div contenteditable id="12"></div></td>
+    <td><div contenteditable id="13"></div></td>
+    <td><div contenteditable id="14"></div></td>
+    <td style="border-right:3px solid black"><div contenteditable id="15"></div></td>
+    <td><div contenteditable id="16"></div></td>
+    <td><div contenteditable id="17"></div></td>
+    <td style="border-right:3px solid black"><div contenteditable id="18"></div></td>  
+  </tr>
+  <tr style="border-bottom:3px solid black">
+    <td style="border-left:3px solid black"><div contenteditable id="20"></div></td>
+    <td><div contenteditable id="21"></div></td>
+    <td style="border-right:3px solid black"><div contenteditable id="22"></div></td>
+    <td><div contenteditable id="23"></div></td>
+    <td><div contenteditable id="24"></div></td>
+    <td style="border-right:3px solid black"><div contenteditable id="25"></div></td>
+    <td><div contenteditable id="26"></div></td>
+    <td><div contenteditable id="27"></div></td>
+    <td style="border-right:3px solid black"><div contenteditable id="28"></div></td>  
+  </tr>
+  <tr>
+    <td style="border-left:3px solid black"><div contenteditable id="30"></div></td>
+    <td><div contenteditable id="31"></div></td>
+    <td style="border-right:3px solid black"><div contenteditable id="32"></div></td>
+    <td><div contenteditable id="33"></div></td>
+    <td><div contenteditable id="34"></div></td>
+    <td style="border-right:3px solid black"><div contenteditable id="35"></div></td>
+    <td><div contenteditable id="36"></div></td>
+    <td><div contenteditable id="37"></div></td>
+    <td style="border-right:3px solid black"><div contenteditable id="38"></div></td>  
+  </tr>
+  <tr>
+    <td style="border-left:3px solid black"><div contenteditable id="40"></div></td>
+    <td><div contenteditable id="41"></div></td>
+    <td style="border-right:3px solid black"><div contenteditable id="42"></div></td>
+    <td><div contenteditable id="43"></div></td>
+    <td><div contenteditable id="44"></div></td>
+    <td style="border-right:3px solid black"><div contenteditable id="45"></div></td>
+    <td><div contenteditable id="46"></div></td>
+    <td><div contenteditable id="47"></div></td>
+    <td style="border-right:3px solid black"><div contenteditable id="48"></div></td>  
+  </tr>
+  <tr style="border-bottom:3px solid black">
+    <td style="border-left:3px solid black"><div contenteditable id="50"></div></td>
+    <td><div contenteditable id="51"></div></td>
+    <td style="border-right:3px solid black"><div contenteditable id="52"></div></td>
+    <td><div contenteditable id="53"></div></td>
+    <td><div contenteditable id="54"></div></td>
+    <td style="border-right:3px solid black"><div contenteditable id="55"></div></td>
+    <td><div contenteditable id="56"></div></td>
+    <td><div contenteditable id="57"></div></td>
+    <td style="border-right:3px solid black"><div contenteditable id="58"></div></td>  
+  </tr>
+  <tr>
+    <td style="border-left:3px solid black"><div contenteditable id="60"></div></td>
+    <td><div contenteditable id="61"></div></td>
+    <td style="border-right:3px solid black"><div contenteditable id="62"></div></td>
+    <td><div contenteditable id="63"></div></td>
+    <td><div contenteditable id="64"></div></td>
+    <td style="border-right:3px solid black"><div contenteditable id="65"></div></td>
+    <td><div contenteditable id="66"></div></td>
+    <td><div contenteditable id="67"></div></td>
+    <td style="border-right:3px solid black"><div contenteditable id="68"></div></td>  
+  </tr>
+  <tr>
+    <td style="border-left:3px solid black"><div contenteditable id="70"></div></td>
+    <td><div contenteditable id="71"></div></td>
+    <td style="border-right:3px solid black"><div contenteditable id="72"></div></td>
+    <td><div contenteditable id="73"></div></td>
+    <td><div contenteditable id="74"></div></td>
+    <td style="border-right:3px solid black"><div contenteditable id="75"></div></td>
+    <td><div contenteditable id="76"></div></td>
+    <td><div contenteditable id="77"></div></td>
+    <td style="border-right:3px solid black"><div contenteditable id="78"></div></td>  
+  </tr>
+  <tr style="border-bottom:3px solid black">
+    <td style="border-left:3px solid black"><div contenteditable id="80"></div></td>
+    <td><div contenteditable id="81"></div></td>
+    <td style="border-right:3px solid black"><div contenteditable id="82"></div></td>
+    <td><div contenteditable id="83"></div></td>
+    <td><div contenteditable id="84"></div></td>
+    <td style="border-right:3px solid black"><div contenteditable id="85"></div></td>
+    <td><div contenteditable id="86"></div></td>
+    <td><div contenteditable id="87"></div></td>
+    <td style="border-right:3px solid black"><div contenteditable id="88"></div></td>  
+  </tr>
+</table>
+
+<br>
+<p id="message" style="width:350px;">Fill some of the boxes, then do something magical!</p>
+<br>
+
+<button type="button" onclick="runAll()">Do something magical!</button><button type="button" onclick="clearAll()">Clear all</button><button type="button" onclick="clearPartial()">Clear solved values</button>
+
+
+</body>
+</html>
