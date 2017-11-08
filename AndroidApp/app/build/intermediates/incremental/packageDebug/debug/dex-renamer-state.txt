@@ -1,0 +1,19 @@
+#Wed Nov 08 09:30:07 CET 2017
+renamed.5=classes6.dex
+renamed.4=classes5.dex
+renamed.3=classes4.dex
+renamed.2=classes3.dex
+renamed.1=classes2.dex
+renamed.0=classes.dex
+base.5=/Users/pruben/AndroidStudioProjects/PaulSudoku/app/build/intermediates/transforms/dexMerger/debug/16
+base.4=/Users/pruben/AndroidStudioProjects/PaulSudoku/app/build/intermediates/transforms/dexMerger/debug/13
+base.3=/Users/pruben/AndroidStudioProjects/PaulSudoku/app/build/intermediates/transforms/dexMerger/debug/15
+base.2=/Users/pruben/AndroidStudioProjects/PaulSudoku/app/build/intermediates/transforms/dexMerger/debug/12
+base.1=/Users/pruben/AndroidStudioProjects/PaulSudoku/app/build/intermediates/transforms/dexMerger/debug/14
+base.0=/Users/pruben/AndroidStudioProjects/PaulSudoku/app/build/intermediates/transforms/dexMerger/debug/11
+file.5=/Users/pruben/AndroidStudioProjects/PaulSudoku/app/build/intermediates/transforms/dexMerger/debug/16/classes.dex
+file.4=/Users/pruben/AndroidStudioProjects/PaulSudoku/app/build/intermediates/transforms/dexMerger/debug/13/classes.dex
+file.3=/Users/pruben/AndroidStudioProjects/PaulSudoku/app/build/intermediates/transforms/dexMerger/debug/15/classes.dex
+file.2=/Users/pruben/AndroidStudioProjects/PaulSudoku/app/build/intermediates/transforms/dexMerger/debug/12/classes.dex
+file.1=/Users/pruben/AndroidStudioProjects/PaulSudoku/app/build/intermediates/transforms/dexMerger/debug/14/classes.dex
+file.0=/Users/pruben/AndroidStudioProjects/PaulSudoku/app/build/intermediates/transforms/dexMerger/debug/11/classes.dex
